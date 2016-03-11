@@ -5,7 +5,7 @@
  * You will need to change the class so that it implements the comparable interface.
  */
 
-public class Time {
+public class Time implements Comparable {
     private int hour;
     private int minute;
 
@@ -44,5 +44,52 @@ public class Time {
         m += minute;
 
         return "" + h + "" + m;
+    }
+
+    public int compareTo(Object o) {
+        final int less=-1, equal=0, greater=1;
+
+        Time obj = (Time)o;
+
+        if (hour < obj.getHour()) {
+            return less;
+        }
+        else if (hour == obj.getHour()) {
+            if (minute < obj.getMinute()) {
+                return less;
+            }
+            else if (minute == obj.getMinute()) {
+                return equal;
+            }
+            else {
+                return greater;
+            }
+        }
+        else {
+            return greater;
+        }
+    }
+
+    public String difference(Time time) {
+        return String.format("%s:%s", timeDifference(time.getHour(), hour), timeDifference(time.getMinute(), minute));
+    }
+
+    private String timeDifference(int first, int second) {
+        int value = Math.abs(first - second);
+
+        if (value == 0) {
+            return "00";
+        }
+        else {
+            return Integer.toString(value);
+        }
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public int getMinute() {
+        return minute;
     }
 }
